@@ -18,6 +18,11 @@ int ALevelManager::GetNumberOfLanes()
 	return NumberOfLanes;
 }
 
+float ALevelManager::GetLaneWidth()
+{
+	return LaneWidth;
+}
+
 // Called when the game starts or when spawned
 void ALevelManager::BeginPlay()
 {

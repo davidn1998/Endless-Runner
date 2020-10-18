@@ -3,15 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/TimelineComponent.h"
 #include "GameFramework/Pawn.h"
 #include "PlayerPawn.generated.h"
-
-class ALevelManager;
 
 UCLASS()
 class ENDLESSRUNNER_API APlayerPawn : public APawn
 {
 	GENERATED_BODY()
+
+private:
+	int CurrentLane = 0;
+	float LaneWidth;
+	FVector TargetLocation;
+	bool bMoving = false;
 
 public:
 	// Sets default values for this pawn's properties
@@ -20,9 +25,14 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	
+
 	UPROPERTY(VisibleAnywhere)
-	ALevelManager *LevelManager;
+	class ALevelManager *LevelManager;
+
+	FTimeline CurveTimeline;
+
+	UPROPERTY(EditAnywhere, Category="Timeline")
+	class UCurveFloat* CurveFloat;
 
 public:
 	// Called every frame
@@ -30,4 +40,15 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
+
+	UFUNCTION()
+	void MoveLeft();
+	UFUNCTION()
+	void MoveRight();
+	UFUNCTION()
+	void TimelineProgress(float Value);
+	// UFUNCTION()
+	// void TimelineProgress(float Value);
+	UFUNCTION()
+	void ResetMovement();
 };
